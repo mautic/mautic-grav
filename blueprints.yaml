@@ -1,0 +1,33 @@
+name: Mautic
+version: 0.0.0
+description: "Mautic - Grav plugin integrates [Mautic](https://mautic.org) tracking and forms into Grav CMS."
+icon: pie-chart
+author:
+  name: Mautic Community
+  email: extensions@mautic.org
+  url: https://mautic.org
+homepage: https://github.com/escopecz/mautic-grav
+keywords: mautic, plugin, tracking, marketing
+bugs: https://github.com/escopecz/mautic-grav/issues
+license: MIT
+
+form:
+  validation: strict
+  fields:
+    enabled:
+      type: toggle
+      label: Plugin Status
+      hightlight: 1
+      default: 0
+      options:
+        1: Enabled
+        0: Disabled
+      validate:
+        type: bool
+
+    url:
+      type: text
+      size: medium
+      label: Mautic base URL
+      placeholder: 'http://...'
+      help: The base URL where your Mautic instance runs

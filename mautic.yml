@@ -1,0 +1,2 @@
+enabled: true               # global enable/disable the entire plugin
+url: ''                     # Mautic base URL
