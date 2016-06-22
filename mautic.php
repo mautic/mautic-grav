@@ -40,7 +40,10 @@ class MauticPlugin extends Plugin
             'referrer'  => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : ''
         ]);
 
-        $page->setRawContent($this->embedForms($mauticBaseUrl, $page->getRawContent()));
+        $content = $this->embedForms($mauticBaseUrl, $page->getRawContent());
+        $content = $this->embedDynamicContent($mauticBaseUrl, $content);
+
+        $page->setRawContent($content);
     }
 
     /**
@@ -66,7 +69,7 @@ class MauticPlugin extends Plugin
      * Load the tracking pixel
      *
      * @param  string $mauticBaseUrl
-     * @param  array  $attrs to be attached as URL query
+     * @param  array  $raw to be attached as URL query
      */
     public function embedForms($mauticBaseUrl, $raw)
     {
@@ -83,5 +86,39 @@ class MauticPlugin extends Plugin
         };
 
         return $this->parseLinks($raw, $function);
+    }
+
+    /**
+     * Embed dynamic content
+     *
+     * @param  string $mauticBaseUrl
+     * @param  string $content The content
+     *
+     * @return string
+     */
+    public function embedDynamicContent($mauticBaseUrl, $content)
+    {
+        $mauticContentRegex = '\[(\[?)(mauticcontent)(?![\w-])([^\]\/]*(?:\/(?!\])[^\]\/]*)*?)(?:(\/)\]|\](?:([^\[]*+(?:\[(?!\/\2\])[^\[]*+)*+)\[\/\2\])?)(\]?)';
+
+        preg_match_all('/' . $mauticContentRegex . '/s', $content, $matches);
+
+        if (count($matches[0]) === 0) {
+            return $content;
+        }
+
+        foreach ($matches[0] as $key => $embed) {
+            parse_str(trim($matches[3][$key]), $args);
+
+            $search = trim($matches[0][$key]);
+            $slot = trim($args['slot'], '"');
+            $defaultContent = trim($matches[5][$key]);
+
+            $replace  = '<script type="text/javascript" src="' . $mauticBaseUrl . '/dwc/generate.js?slot=' . $slot .'"></script>';
+            $replace .= '<div id="mautic-slot-' . $slot . '">' . $defaultContent . '</div>';
+
+            $content = str_replace($search, $replace, $content);
+        }
+
+        return $content;
     }
 }

@@ -62,3 +62,18 @@ This code snippet will be converted into the following:
 ```
 <script type="text/javascript" src="http://yourmautic.com/form/generate.js?id=8"></script>
 ```
+
+## Mautic Dynamic Content Embed
+
+To use this, simply include the Mautic dynamic content shortcode in your content.
+
+```
+[mauticcontent slot="slot_name"]Default content to show when an unknown contact views this slot.[/mauticcontent]
+```
+
+This code snippet will be converted into the following:
+
+```
+<script type="text/javascript" src="http://yourmautic.com/dwc/generate.js?slot=slot_name"></script>
+<div id="mautic-slot-slot_name">Default content to show when an unknown contact views this slot.</div>
+```
