@@ -34,12 +34,6 @@ class MauticPlugin extends Plugin
         $mauticBaseUrl = $this->config->get('plugins.mautic.url');
         $mauticBaseUrl = trim($mauticBaseUrl, " \t\n\r\0\x0B/");
 
-        $this->loadTracking($mauticBaseUrl, [
-            'title'     => $page->title(),
-            'url'       => $this->grav['uri']->url,
-            'referrer'  => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : ''
-        ]);
-
         $content = $this->embedForms($mauticBaseUrl, $page->getRawContent());
         $content = $this->embedDynamicContent($mauticBaseUrl, $content);
 
@@ -52,14 +46,16 @@ class MauticPlugin extends Plugin
      * @param  string $mauticBaseUrl
      * @param  array  $attrs to be attached as URL query
      */
-    public function loadTracking($mauticBaseUrl, $attrs)
+    public function loadTracking($mauticBaseUrl)
     {
         if ($mauticBaseUrl) {
-            $encodedAttrs = urlencode(base64_encode(serialize($attrs)));
             $init = "
-                var img = new Image();
-                img.src = '{$mauticBaseUrl}/mtracking.gif?d={$encodedAttrs}';
-                img.alt = 'mautic is open source marketing automation';
+    (function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
+        w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
+        m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','{$mauticBaseUrl}/mtc.js','mt');
+
+    mt('send', 'pageview');
             ";
             $this->grav['assets']->addInlineJs($init);
         }
@@ -98,7 +94,7 @@ class MauticPlugin extends Plugin
      */
     public function embedDynamicContent($mauticBaseUrl, $content)
     {
-        $mauticContentRegex = '\[(\[?)(mauticcontent)(?![\w-])([^\]\/]*(?:\/(?!\])[^\]\/]*)*?)(?:(\/)\]|\](?:([^\[]*+(?:\[(?!\/\2\])[^\[]*+)*+)\[\/\2\])?)(\]?)';
+        $mauticContentRegex = '\[(\[?)(mautic)(?![\w-])([^\]\/]*(?:\/(?!\])[^\]\/]*)*?)(?:(\/)\]|\](?:([^\[]*+(?:\[(?!\/\2\])[^\[]*+)*+)\[\/\2\])?)(\]?)';
 
         preg_match_all('/' . $mauticContentRegex . '/s', $content, $matches);
 
@@ -113,8 +109,7 @@ class MauticPlugin extends Plugin
             $slot = trim($args['slot'], '"');
             $defaultContent = trim($matches[5][$key]);
 
-            $replace  = '<script type="text/javascript" src="' . $mauticBaseUrl . '/dwc/generate.js?slot=' . $slot .'"></script>';
-            $replace .= '<div id="mautic-slot-' . $slot . '">' . $defaultContent . '</div>';
+            $replace = '<div class="mautic-slot" data-slot-name="' . $slot . '">' . $defaultContent . '</div>';
 
             $content = str_replace($search, $replace, $content);
         }

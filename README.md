@@ -35,13 +35,16 @@ If you need to change any value, then the best process is to copy the [mautic.ya
 
 ## Mautic tracking
 
-Tracking image works right after you enable the plugin, insert the Base URL and save the plugin. That means it will insert 1 px gif image loaded from your Mautic instance. You can check HTML source code (CTRL + U) of your Grav website to make sure the plugin works. You should be able to find something like this:
+Tracking JS works right after you enable the plugin, insert the Base URL and save the plugin. That means it will insert JS into the head of your site from your Mautic instance. You can check HTML source code (CTRL + U) of your Grav website to make sure the plugin works. You should be able to find something like this:
 
 ```
 <script>
-    var img = new Image();
-    img.src = 'http://yourmautic.com/mtracking.gif?d=...';
-    img.alt = 'mautic is open source marketing automation';
+    (function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
+        w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
+        m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','{$mauticBaseUrl}/mtc.js','mt');
+
+    mt('send', 'pageview');
 </script>
 ```
 
@@ -68,12 +71,11 @@ This code snippet will be converted into the following:
 To use this, simply include the Mautic dynamic content shortcode in your content.
 
 ```
-[mauticcontent slot="slot_name"]Default content to show when an unknown contact views this slot.[/mauticcontent]
+[mautic type="content" slot="slot_name"]Default content to show when an unknown contact views this slot.[/mautic]
 ```
 
 This code snippet will be converted into the following:
 
 ```
-<script type="text/javascript" src="http://yourmautic.com/dwc/generate.js?slot=slot_name"></script>
-<div id="mautic-slot-slot_name">Default content to show when an unknown contact views this slot.</div>
+<div class="mautic-slot" data-slot-name="slot_name">Default content to show when an unknown contact views this slot.</div>
 ```
