@@ -49,6 +49,12 @@ class MauticPlugin extends Plugin
         $mauticBaseUrl = trim($mauticBaseUrl, " \t\n\r\0\x0B/");
         $rawContent    = $page->getRawContent();
 
+        $this->loadTracking($mauticBaseUrl, [
+            'title'     => $page->title(),
+            'url'       => $this->grav['uri']->url,
+            'referrer'  => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : ''
+        ]);
+
         // Do form replacement
         $rawContent = $this->embedForms($mauticBaseUrl, $rawContent);
 
@@ -84,8 +90,10 @@ class MauticPlugin extends Plugin
      * @param  string $mauticBaseUrl
      * @param  array  $attrs to be attached as URL query
      */
-    public function loadTracking($mauticBaseUrl)
+    public function loadTracking($mauticBaseUrl, $atts = [])
     {
+        $jsonAtts = json_encode($atts, JSON_FORCE_OBJECT);
+
         if ($mauticBaseUrl) {
             $init = "
     (function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
@@ -93,7 +101,7 @@ class MauticPlugin extends Plugin
         m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
     })(window,document,'script','{$mauticBaseUrl}/mtc.js','mt');
 
-    mt('send', 'pageview');
+    mt('send', 'pageview', {$jsonAtts});
             ";
             $this->grav['assets']->addInlineJs($init);
         }
