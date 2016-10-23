@@ -34,6 +34,8 @@ class MauticPlugin extends Plugin
         $mauticBaseUrl = $this->config->get('plugins.mautic.url');
         $mauticBaseUrl = trim($mauticBaseUrl, " \t\n\r\0\x0B/");
 
+        $this->loadTracking($mauticBaseUrl);
+
         $content = $this->embedForms($mauticBaseUrl, $page->getRawContent());
         $content = $this->embedDynamicContent($mauticBaseUrl, $content);
 
