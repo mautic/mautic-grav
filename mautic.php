@@ -103,13 +103,17 @@ class MauticPlugin extends Plugin
         }
 
         foreach ($matches[0] as $key => $embed) {
-            parse_str(trim($matches[3][$key]), $args);
+            parse_str(trim(str_replace(" ", "&", $matches[3][$key])), $args);
 
-            $search = trim($matches[0][$key]);
-            $slot = trim($args['slot'], '"');
+            if (array_key_exists('slot', $args))
+                $slot = trim($args['slot'], '"');
+            else
+                $slot = '';
+
             $defaultContent = trim($matches[5][$key]);
+            $search = trim($matches[0][$key]);
 
-            $replace = '<div class="mautic-slot" data-slot-name="' . $slot . '">' . $defaultContent . '</div>';
+            $replace = '<div data-slot="dwc" data-param-slot-name="' . $slot . '">' . $defaultContent . '</div>';
 
             $content = str_replace($search, $replace, $content);
         }
