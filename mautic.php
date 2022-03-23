@@ -62,7 +62,7 @@ class MauticPlugin extends Plugin
     }
 
     /**
-     * Load the tracking pixel
+     * Embed forms
      *
      * @param  string $mauticBaseUrl
      * @param  array  $raw to be attached as URL query
