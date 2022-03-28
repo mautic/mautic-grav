@@ -12,3 +12,9 @@
 1. [](#new)
     * Mautic Dynamic Web Content implemented
     * Mautic JS tracking implemented
+
+# v1.1.1
+## 02/28/2022
+
+1. [#](bugfix)
+    * Update dynamic web content to be usable with recent versions of Mautic (4.2.0)
