@@ -25,8 +25,9 @@ You should now have all the plugin files under
 # Config Defaults
 
 ```
-enabled: true
-url: true
+enabled: true               # Global enable/disable the entire plugin
+tracking: false             # Enable/Disable tracking
+url: 'http://mautic.loc'    # Mautic base URL
 ```
 
 If you need to change any value, then the best process is to copy the [mautic.yaml](mautic.yaml) file into your `users/config/plugins/` folder (create it if it doesn't exist), and then modify there.  This will override the default settings.
