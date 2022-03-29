@@ -27,3 +27,9 @@
 2. [](#new)
     * Added option in the plugin configuration back-end to enable/disable
       tracking
+
+# v1.2.1
+## 03/29/2022
+
+1. [](#bugfix)
+    * Updated documentation
