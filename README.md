@@ -74,7 +74,7 @@ This code snippet will be converted into the following:
 To use this, simply include the Mautic dynamic content shortcode in your content.
 
 ```
-[mautic type="dwc" slot="slot_name"]Default content to show when an unknown contact views this slot.[/mautic]
+[mautic type="content" slot="slot_name"]Default content to show when an unknown contact views this slot.[/mautic]
 ```
 
 This code snippet will be converted into the following:
