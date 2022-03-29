@@ -32,8 +32,11 @@ class MauticPlugin extends Plugin
         /** @var Page $page */
         $page = $event['page'];
         $mauticBaseUrl = $this->config->get('plugins.mautic.url');
+        $allowTracking = $this->config->get('plugins.mautic.tracking');
         $mauticBaseUrl = trim($mauticBaseUrl, " \t\n\r\0\x0B/");
 
+        if ($allowTracking)
+            $content = $this->loadTracking($mauticBaseUrl);
         $content = $this->embedForms($mauticBaseUrl, $page->getRawContent());
         $content = $this->embedDynamicContent($mauticBaseUrl, $content);
 
@@ -62,7 +65,7 @@ class MauticPlugin extends Plugin
     }
 
     /**
-     * Embed forms
+     * Load the tracking pixel
      *
      * @param  string $mauticBaseUrl
      * @param  array  $raw to be attached as URL query

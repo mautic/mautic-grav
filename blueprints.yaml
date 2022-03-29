@@ -17,13 +17,27 @@ form:
     enabled:
       type: toggle
       label: Plugin Status
-      hightlight: 1
+      highlight: 1
       default: 0
       options:
         1: Enabled
         0: Disabled
       validate:
         type: bool
+
+    tracking:
+      type: toggle
+      label: Enable tracking
+      highlight: 1
+      default: 0
+      options:
+        1: Enabled
+        0: Disabled
+      validate:
+        type: bool
+      help: If enabled, tracking code is injected in every page on load; If
+        disabled, no tracking code is injected, which is useful if you want to
+        control tracking from within a consent manager (to conform to the GDPR)
 
     url:
       type: text

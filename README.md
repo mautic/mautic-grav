@@ -35,7 +35,7 @@ If you need to change any value, then the best process is to copy the [mautic.ya
 
 ## Mautic tracking
 
-Tracking JS works right after you enable the plugin, insert the Base URL and save the plugin. That means it will insert JS into the head of your site from your Mautic instance. You can check HTML source code (CTRL + U) of your Grav website to make sure the plugin works. You should be able to find something like this:
+Tracking JS works right after you enable the plugin, insert the Base URL and save the plugin (you also have to enable tracking in the configuration settings). After this, the plugin will insert JS into the head of your site from your Mautic instance. You can check HTML source code (CTRL + U) of your Grav website to make sure the plugin works. You should be able to find something like this:
 
 ```
 <script>
@@ -49,6 +49,8 @@ Tracking JS works right after you enable the plugin, insert the Base URL and sav
 ```
 
 There will be probably longer URL query string at the end of the tracking image URL. It is encoded additional data about the page (title, url, referrer).
+
+The plugin allows to disable tracking, which allows you to control the injection of tracking code via a (3rd-party) consent manager.
 
 ## Mautic Form Embed
 

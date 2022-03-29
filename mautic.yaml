@@ -1,2 +1,3 @@
-enabled: true               # global enable/disable the entire plugin
-url: 'http://mautic.loc'                     # Mautic base URL
+enabled: true               # Gglobal enable/disable the entire plugin
+tracking: false             # Enable/Disable tracking
+url: 'http://mautic.loc'    # Mautic base URL
