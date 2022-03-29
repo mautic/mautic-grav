@@ -38,7 +38,7 @@ class MauticPlugin extends Plugin
         if ($allowTracking)
             $content = $this->loadTracking($mauticBaseUrl);
         $content = $this->embedForms($mauticBaseUrl, $page->getRawContent());
-        $content = $this->embedDynamicContent($mauticBaseUrl, $content);
+        $content = $this->embedContent($mauticBaseUrl, $content);
 
         $page->setRawContent($content);
     }
@@ -95,7 +95,7 @@ class MauticPlugin extends Plugin
      *
      * @return string
      */
-    public function embedDynamicContent($mauticBaseUrl, $content)
+    public function embedContent($mauticBaseUrl, $content)
     {
         $mauticContentRegex = '\[(\[?)(mautic)(?![\w-])([^\]\/]*(?:\/(?!\])[^\]\/]*)*?)(?:(\/)\]|\](?:([^\[]*+(?:\[(?!\/\2\])[^\[]*+)*+)\[\/\2\])?)(\]?)';
 
@@ -108,15 +108,32 @@ class MauticPlugin extends Plugin
         foreach ($matches[0] as $key => $embed) {
             parse_str(trim(str_replace(" ", "&", $matches[3][$key])), $args);
 
-            if (array_key_exists('slot', $args))
-                $slot = trim($args['slot'], '"');
-            else
-                $slot = '';
 
-            $defaultContent = trim($matches[5][$key]);
-            $search = trim($matches[0][$key]);
+            $type = '';
+            $slot = '';
+            $item = '';
+            $search = '';
+            $replace = '';
 
-            $replace = '<div data-slot="dwc" data-param-slot-name="' . $slot . '">' . $defaultContent . '</div>';
+            if (array_key_exists('type', $args))
+                $type = trim($args['type'], '"');
+
+            # Handle request for dynamic web content (DWC)
+            if ($type == "content")
+                if (array_key_exists('slot', $args)) {
+                    $slot = trim($args['slot'], '"');
+                    $defaultContent = trim($matches[5][$key]);
+                    $search = trim($matches[0][$key]);
+                    $replace = '<div data-slot="dwc" data-param-slot-name="' . $slot . '">' . $defaultContent . '</div>';
+            }
+
+            # Handle request for focus items
+            if ($type == "focus")
+                if (array_key_exists('item', $args)) {
+                    $item = trim($args['item'], '"');
+                    $search = trim($matches[0][$key]);
+                    $replace = '<script src="' . $mauticBaseUrl . "/focus/" . $item . '.js" type="text/javascript" charset="utf-8" async="async"></script>';
+            }
 
             $content = str_replace($search, $replace, $content);
         }

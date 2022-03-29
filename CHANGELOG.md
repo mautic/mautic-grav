@@ -33,3 +33,9 @@
 
 1. [](#bugfix)
     * Updated documentation
+
+# v1.3.0
+## 03/29/2022
+
+1. [](#new)
+    * Adding support for focus items

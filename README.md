@@ -74,11 +74,33 @@ This code snippet will be converted into the following:
 To use this, simply include the Mautic dynamic content shortcode in your content.
 
 ```
-[mautic slot="slot_name"]Default content to show when an unknown contact views this slot.[/mautic]
+[mautic type="dwc" slot="slot_name"]Default content to show when an unknown contact views this slot.[/mautic]
 ```
 
 This code snippet will be converted into the following:
 
 ```
 <div data-slot="dwc" data-param-slot-name="slot_name">Default content to show when an unknown contact views this slot.</div>
+```
+
+## Mautic Focus Items
+
+To add focus items into a page, we simply add the following shortcode into the
+content of a Grav page:
+
+
+```
+[mautic type="focus" item="ITEM_ID"][/mautic]
+```
+
+For example:
+
+```
+[mautic type="focus" item="1"][/mautic]
+```
+
+This will be converted into the following
+
+```
+<script type="text/javascript" src="http://yourmautic.com/focus/1.js" type="text/javascript" charset="utf-8" async="async"></script>
 ```
