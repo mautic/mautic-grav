@@ -1,6 +1,6 @@
 # Mautic - Grav Plugin
 
-This is [Grav CMS](http://getgrav.org) plugin that helps you configure [Mautic](https://mautic.org) tracking and converts markdown "links" into Mautic Form Embed code.
+This is [Grav CMS](http://getgrav.org) plugin that helps you configure [Mautic](https://mautic.org) tracking and converts markdown "links" and shortcodes into HTML that embeds Mautic content on your Grav page.
 
 # Installation
 
@@ -36,7 +36,7 @@ If you need to change any value, then the best process is to copy the [mautic.ya
 
 ## Mautic tracking
 
-Tracking JS works right after you enable the plugin, insert the Base URL and save the plugin (you also have to enable tracking in the configuration settings). After this, the plugin will insert JS into the head of your site from your Mautic instance. You can check HTML source code (CTRL + U) of your Grav website to make sure the plugin works. You should be able to find something like this:
+Tracking JS works right after you enable the plugin, enable tracking, insert the Base URL and save the plugin. After this, the plugin will insert JS into the head of your site from your Mautic instance. You can check HTML source code (CTRL + U) of your Grav website to make sure the plugin works. You should be able to find something like this:
 
 ```
 <script>
@@ -60,13 +60,11 @@ and `id`, where `type` specifies the content type, and `id` specifies one
 particular content element delivered by Mautic. The following table lists the
 available content types, as well as their associated IDs:
 
-+-----------+-----------------------------------------------------------------------------------------------------------+
 | Type      | ID                                                                                                        |
-+-----------+-----------------------------------------------------------------------------------------------------------+
+|-----------|-----------------------------------------------------------------------------------------------------------|
 | `form`    | The ID of the form (from Mautic "Components/Forms" overview table)                                        |
 | `content` | The DWC slot name (from Mautic "Components/Dynamic Content" element in edit mode as "Requested slot name")|
 | `focus`   | The ID of the focus item (from Mautic "Channels/Focus Items" overview table)                              |
-+-----------+-----------------------------------------------------------------------------------------------------------+
 
 The general syntax is:
 
@@ -79,7 +77,7 @@ element.
 
 ### Forms
 
-There are two oprions to include Mautic forms into Grav pages: Shortcodes and
+There are two options to include Mautic forms into Grav pages: shortcodes and
 Markdown links. The reason is that the shortcode parser used by this plugin is
 not yet mature enough to support nested shortcodes.
 
