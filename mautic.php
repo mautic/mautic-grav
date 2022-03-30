@@ -97,8 +97,10 @@ class MauticPlugin extends Plugin
      */
     public function embedContent($mauticBaseUrl, $content)
     {
+        # Define regex for mautic shortcode
         $mauticContentRegex = '\[(\[?)(mautic)(?![\w-])([^\]\/]*(?:\/(?!\])[^\]\/]*)*?)(?:(\/)\]|\](?:([^\[]*+(?:\[(?!\/\2\])[^\[]*+)*+)\[\/\2\])?)(\]?)';
 
+        # Match content for mautic shortcodes
         preg_match_all('/' . $mauticContentRegex . '/s', $content, $matches);
 
         if (count($matches[0]) === 0) {
@@ -108,33 +110,46 @@ class MauticPlugin extends Plugin
         foreach ($matches[0] as $key => $embed) {
             parse_str(trim(str_replace(" ", "&", $matches[3][$key])), $args);
 
-
             $type = '';
-            $slot = '';
-            $item = '';
-            $search = '';
+            $id = '';
+            $search = trim($matches[0][$key]);
             $replace = '';
+            $defaultContent = trim($matches[5][$key]);
 
+            # Extract parameters from shortcode
             if (array_key_exists('type', $args))
                 $type = trim($args['type'], '"');
+            if (array_key_exists('id', $args))
+                $id = trim($args['id'], '"');
 
-            # Handle request for dynamic web content (DWC)
+            # Handle forms
+            if ($type == "form")
+                $replace =
+                    '<script type="text/javascript" src="'
+                    . $mauticBaseUrl
+                    . '/form/generate.js?id='
+                    . $id
+                    . '"></script>';
+
+            # Handle dynamic web content (DWC)
             if ($type == "content")
-                if (array_key_exists('slot', $args)) {
-                    $slot = trim($args['slot'], '"');
-                    $defaultContent = trim($matches[5][$key]);
-                    $search = trim($matches[0][$key]);
-                    $replace = '<div data-slot="dwc" data-param-slot-name="' . $slot . '">' . $defaultContent . '</div>';
-            }
+                $replace =
+                    '<div data-slot="dwc" data-param-slot-name="'
+                    . $id
+                    . '">'
+                    . $defaultContent
+                    . '</div>';
 
-            # Handle request for focus items
+            # Handle focus items
             if ($type == "focus")
-                if (array_key_exists('item', $args)) {
-                    $item = trim($args['item'], '"');
-                    $search = trim($matches[0][$key]);
-                    $replace = '<script src="' . $mauticBaseUrl . "/focus/" . $item . '.js" type="text/javascript" charset="utf-8" async="async"></script>';
-            }
+                    $replace =
+                        '<script src="'
+                        . $mauticBaseUrl
+                        . "/focus/"
+                        . $id
+                        . '.js" type="text/javascript" charset="utf-8" async="async"></script>';
 
+            # Generate content
             $content = str_replace($search, $replace, $content);
         }
 

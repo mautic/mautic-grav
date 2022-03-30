@@ -27,7 +27,7 @@ You should now have all the plugin files under
 ```
 enabled: true               # Global enable/disable the entire plugin
 tracking: false             # Enable/Disable tracking
-url: 'http://mautic.loc'    # Mautic base URL
+url: 'https://mautic.loc'    # Mautic base URL
 ```
 
 If you need to change any value, then the best process is to copy the [mautic.yaml](mautic.yaml) file into your `users/config/plugins/` folder (create it if it doesn't exist), and then modify there.  This will override the default settings.
@@ -53,28 +53,85 @@ There will be probably longer URL query string at the end of the tracking image 
 
 The plugin allows to disable tracking, which allows you to control the injection of tracking code via a (3rd-party) consent manager.
 
-## Mautic Form Embed
+## Mautic content
 
-To use this plugin you simply need to include a Mautic Form ID in markdown link such as:
+Mautic content is included as shortcodes, identified by two parameters `type`
+and `id`, where `type` specifies the content type, and `id` specifies one
+particular content element delivered by Mautic. The following table lists the
+available content types, as well as their associated IDs:
+
++-----------+-----------------------------------------------------------------------------------------------------------+
+| Type      | ID                                                                                                        |
++-----------+-----------------------------------------------------------------------------------------------------------+
+| `form`    | The ID of the form (from Mautic "Components/Forms" overview table)                                        |
+| `content` | The DWC slot name (from Mautic "Components/Dynamic Content" element in edit mode as "Requested slot name")|
+| `focus`   | The ID of the focus item (from Mautic "Channels/Focus Items" overview table)                              |
++-----------+-----------------------------------------------------------------------------------------------------------+
+
+The general syntax is:
 
 ```
-[plugin:mautic](FORM_ID)
+[mautic type="<type>" id="<id>"][/mautic]
 ```
 
-Example: `[plugin:mautic](8)` will load Mautic form with ID = 8.
+The following sections provide examples on the detailed usage for each content
+element.
 
-This code snippet will be converted into the following:
+### Forms
 
-```
-<script type="text/javascript" src="http://yourmautic.com/form/generate.js?id=8"></script>
-```
+There are two oprions to include Mautic forms into Grav pages: Shortcodes and
+Markdown links. The reason is that the shortcode parser used by this plugin is
+not yet mature enough to support nested shortcodes.
 
-## Mautic Dynamic Content Embed
+1. Via Shortcode
+
+    To use this, we simply include the following:
+    
+    ```
+    [mautic type="form" id="<FORM_ID>"][/mautic]
+    ```
+    
+    Example: `[mautic type="form" id="8"][/mautic]` will load Mautic form with ID = 8.
+    
+    This code snippet will be converted into the following:
+    
+    ```
+    <script type="text/javascript" src="https://mautic.loc/form/generate.js?id=8"></script>
+    ```
+
+2. Via Markdown link
+
+    There is a second option to include a form into a Grav page, which is to simply
+    include a Mautic Form ID in markdown link such as:
+    
+    ```
+    [plugin:mautic](FORM_ID)
+    ```
+    
+    Example: `[plugin:mautic](8)` will load Mautic form with ID = 8.
+    
+    This alternative form of including Mautic forms via link is very useful to
+    combine embedded forms with dynamic web content directives. One example use case
+    would be to only show a newsletter signup form if a visitor has not already
+    signed up:
+    
+    ```
+    [mautic type="content" id="subscribed2newsletter"]
+      [plugin:mautic](2)
+    [/mautic]
+    ```
+    
+    The above code snippet works as follows: If a user is already signed up, a
+    message is displayed like "You are already signed up" via dynamic web content.
+    Otherwise, if a user is not already signed up, a form is shown for the visitor
+    to enter her data.
+
+### Dynamic Web Content (DWC)
 
 To use this, simply include the Mautic dynamic content shortcode in your content.
 
 ```
-[mautic type="content" slot="slot_name"]Default content to show when an unknown contact views this slot.[/mautic]
+[mautic type="content" id="slot_name"]Default content to show when an unknown contact views this slot.[/mautic]
 ```
 
 This code snippet will be converted into the following:
@@ -83,24 +140,24 @@ This code snippet will be converted into the following:
 <div data-slot="dwc" data-param-slot-name="slot_name">Default content to show when an unknown contact views this slot.</div>
 ```
 
-## Mautic Focus Items
+### Focus Items
 
 To add focus items into a page, we simply add the following shortcode into the
 content of a Grav page:
 
 
 ```
-[mautic type="focus" item="ITEM_ID"][/mautic]
+[mautic type="focus" id="ITEM_ID"][/mautic]
 ```
 
 For example:
 
 ```
-[mautic type="focus" item="1"][/mautic]
+[mautic type="focus" id="1"][/mautic]
 ```
 
 This will be converted into the following
 
 ```
-<script type="text/javascript" src="http://yourmautic.com/focus/1.js" type="text/javascript" charset="utf-8" async="async"></script>
+<script type="text/javascript" src="https://mautic.loc/focus/1.js" type="text/javascript" charset="utf-8" async="async"></script>
 ```
