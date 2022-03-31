@@ -116,7 +116,15 @@ class MauticPlugin extends Plugin
             $replace = '';
             $defaultContent = trim($matches[5][$key]);
 
-            # Extract parameters from shortcode
+            # Supporting legacy releases
+            if (array_key_exists('slot', $args))
+                $id = trim($args['slot'], '"');
+            if (array_key_exists('item', $args))
+                $id = trim($args['item'], '"');
+
+            # Extract parameters from shortcode; If both legacy and current
+            # parameters are given, current parameter has precedence and
+            # overrides a possible legacy parameter 
             if (array_key_exists('type', $args))
                 $type = trim($args['type'], '"');
             if (array_key_exists('id', $args))
