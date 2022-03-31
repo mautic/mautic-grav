@@ -1,23 +1,26 @@
-# v1.0.0
-## 11/08/2015
-
-1. [](#new)
-    * Mautic Tracking Pixel implemented
-    * Mautic Form Embed implemented
-    * Mautic Plugin started
-
-# v1.1.0
-## 08/12/2015
-
-1. [](#new)
-    * Mautic Dynamic Web Content implemented
-    * Mautic JS tracking implemented
-
-# v1.1.1
-## 03/28/2022
+# v1.3.2
+## 03/29/2022
 
 1. [](#bugfix)
-    * Update dynamic web content to be usable with recent versions of Mautic (4.2.0)
+    * Updating CHANGELOG
+
+# v1.3.1
+## 03/29/2022
+
+1. [](#bugfix)
+    * Updating documentation
+
+# v1.3.0
+## 03/29/2022
+
+1. [](#new)
+    * Adding support for focus items
+
+# v1.2.1
+## 03/29/2022
+
+1. [](#bugfix)
+    * Updated documentation
 
 # v1.2.0
 ## 03/29/2022
@@ -28,26 +31,22 @@
     * Added option in the plugin configuration back-end to enable/disable
       tracking
 
-# v1.2.1
-## 03/29/2022
+# v1.1.1
+## 03/28/2022
 
 1. [](#bugfix)
-    * Updated documentation
-
-# v1.3.0
-## 03/29/2022
+    * Update dynamic web content to be usable with recent versions of Mautic (4.2.0)
+# v1.1.0
+## 08/12/2015
 
 1. [](#new)
-    * Adding support for focus items
+    * Mautic Dynamic Web Content implemented
+    * Mautic JS tracking implemented
 
-# v1.3.1
-## 03/29/2022
+# v1.0.0
+## 11/08/2015
 
-1. [](#bugfix)
-    * Updating documentation
-
-# v1.3.2
-## 03/29/2022
-
-1. [](#bugfix)
-    * Updating CHANGELOG
+1. [](#new)
+    * Mautic Tracking Pixel implemented
+    * Mautic Form Embed implemented
+    * Mautic Plugin started

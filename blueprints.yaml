@@ -35,7 +35,8 @@ form:
         0: Disabled
       validate:
         type: bool
-      help: If enabled, tracking code is injected in every page on load; If
+      help: >
+        If enabled, tracking code is injected in every page on load; If
         disabled, no tracking code is injected, which is useful if you want to
         control tracking from within a consent manager (to conform to the GDPR)
 
