@@ -1,3 +1,17 @@
+# v1.4.0
+## 04/02/2022
+
+1. [](#new)
+    * Introducing a unified (simplified) shortcode interface for all Mautic
+      components supported by this plugin (forms, dynamic web content, focus
+      items)
+    * Legacy interface still supported (Markdown links for forms and different
+      shortcode parameter names depending on Mautic component)
+    * Tracking can be activated/deactivated independently from other Mautic
+      components
+2. [](#improved)
+    * Bringing CHANGELOG items into correct order
+
 # v1.3.2
 ## 03/29/2022
 
