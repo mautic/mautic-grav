@@ -1,3 +1,10 @@
+# v1.5.0
+## 04/25/2022
+
+1. [](#new)
+    * Adding support for assets: Asset links can now be included into Grav pages
+      using Mautic shortcodes, which will be tracked via Mautic
+
 # v1.4.0
 ## 04/02/2022
 
