@@ -1,6 +1,6 @@
 name: Mautic
-version: 1.4.0
-description: "Mautic - Grav plugin integrates [Mautic](https://mautic.org) tracking, forms, dynamic web content, and focus items into Grav CMS."
+version: 1.5.0
+description: "Mautic - Grav plugin integrates [Mautic](https://mautic.org) tracking, forms, dynamic web content, focus items, and assets into Grav CMS."
 icon: pie-chart
 author:
   name: Mautic Community

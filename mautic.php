@@ -112,6 +112,7 @@ class MauticPlugin extends Plugin
 
             $type = '';
             $id = '';
+            $alias = '';
             $search = trim($matches[0][$key]);
             $replace = '';
             $defaultContent = trim($matches[5][$key]);
@@ -129,6 +130,8 @@ class MauticPlugin extends Plugin
                 $type = trim($args['type'], '"');
             if (array_key_exists('id', $args))
                 $id = trim($args['id'], '"');
+            if (array_key_exists('alias', $args))
+                $alias = trim($args['alias'], '"');
 
             # Handle forms
             if ($type == "form")
@@ -156,6 +159,19 @@ class MauticPlugin extends Plugin
                         . "/focus/"
                         . $id
                         . '.js" type="text/javascript" charset="utf-8" async="async"></script>';
+
+            # Handle assets
+            if ($type == "asset")
+                    $replace =
+                        '<a href="'
+                        . $mauticBaseUrl
+                        . '/asset/'
+                        . $id
+                        . ':'
+                        . $alias
+                        . '">'
+                        . $defaultContent
+                        . '</a>';
 
             # Generate content
             $content = str_replace($search, $replace, $content);

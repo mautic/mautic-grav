@@ -27,7 +27,7 @@ You should now have all the plugin files under
 ```
 enabled: true               # Global enable/disable the entire plugin
 tracking: false             # Enable/Disable tracking
-url: 'https://mautic.loc'    # Mautic base URL
+url: 'https://mautic.loc'   # Mautic base URL
 ```
 
 If you need to change any value, then the best process is to copy the [mautic.yaml](mautic.yaml) file into your `users/config/plugins/` folder (create it if it doesn't exist), and then modify there.  This will override the default settings.
@@ -65,6 +65,7 @@ available content types, as well as their associated IDs:
 | `form`    | The ID of the form (from Mautic "Components/Forms" overview table)                                        |
 | `content` | The DWC slot name (from Mautic "Components/Dynamic Content" element in edit mode as "Requested slot name")|
 | `focus`   | The ID of the focus item (from Mautic "Channels/Focus Items" overview table)                              |
+| `asset`   | The ID of the asset. Additionally, the asset's *alias* is needed, provided via the `asset` parameter      |
 
 The general syntax is:
 
@@ -158,4 +159,43 @@ This will be converted into the following
 
 ```
 <script type="text/javascript" src="https://mautic.loc/focus/1.js" type="text/javascript" charset="utf-8" async="async"></script>
+```
+
+### Assets
+
+Assets are downloadable items which can be tracked with Mautic. Typically,
+assets are provided when a website user fills out a form. When assets are
+provided after filling a form, this has to be set up in Mautic (and the form can
+be included using this plugin).
+
+Assets can also be provided using direct links; the asset download will be
+tracked by Mautic, but not in exchange for some form data in this case. For
+assets downloadable via direct links, we add the following shortcode into the
+content of a Grav page:
+
+```
+[mautic type="asset" id="<ID>" alias="<ALIAS>"]
+  Link text
+[/mautic]
+```
+
+The shortcode to insert asset links expects three parameters: Besides the usual
+`type` and `id` parameter, we also need to provide the *alias* of the asset.
+Both the ID and the alias can be found in the asset's details in Mautic. The
+text between the opening and closing shortcode tags is the text of the link that
+is generated to download the asset.
+
+The following example shows a shortcode that generates a link for donwloading a
+logo:
+
+```
+[mautic type="asset" id="1" alias="logopng"]
+  Download our logo
+[/mautic]
+```
+
+The above example converts into the following HTML:
+
+```
+<a href="https://mautic.loc/asset/1:logopng">Download our logo</a>
 ```
