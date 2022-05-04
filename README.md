@@ -202,7 +202,7 @@ The above example converts into the following HTML:
 ```
 
 > :warning: **WARNING:** A separate `alias` parameter is still supported, but
-> deprecated since 1.6.0
+> deprecated since 1.5.1
 >
 > ```
 > [mautic type="asset" id="1" alias="logopng"]
