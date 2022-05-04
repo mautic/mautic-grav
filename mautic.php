@@ -117,7 +117,7 @@ class MauticPlugin extends Plugin
             $replace = '';
             $defaultContent = trim($matches[5][$key]);
 
-            # Supporting legacy releases
+            # Supporting legacy releases (for backwards compatibility to  1.3.2
             if (array_key_exists('slot', $args))
                 $id = trim($args['slot'], '"');
             if (array_key_exists('item', $args))
@@ -130,8 +130,12 @@ class MauticPlugin extends Plugin
                 $type = trim($args['type'], '"');
             if (array_key_exists('id', $args))
                 $id = trim($args['id'], '"');
-            if (array_key_exists('alias', $args))
+
+            # Support backwards compatibility to 1.5.0
+            if (array_key_exists('alias', $args)) {
                 $alias = trim($args['alias'], '"');
+                $id = $id . ':' . $alias;
+            }
 
             # Handle forms
             if ($type == "form")
@@ -167,8 +171,6 @@ class MauticPlugin extends Plugin
                         . $mauticBaseUrl
                         . '/asset/'
                         . $id
-                        . ':'
-                        . $alias
                         . '">'
                         . $defaultContent
                         . '</a>';

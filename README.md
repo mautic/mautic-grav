@@ -65,7 +65,7 @@ available content types, as well as their associated IDs:
 | `form`    | The ID of the form (from Mautic "Components/Forms" overview table)                                        |
 | `content` | The DWC slot name (from Mautic "Components/Dynamic Content" element in edit mode as "Requested slot name")|
 | `focus`   | The ID of the focus item (from Mautic "Channels/Focus Items" overview table)                              |
-| `asset`   | The ID of the asset. Additionally, the asset's *alias* is needed, provided via the `asset` parameter      |
+| `asset`   | The ID of the asset. Additionally, the asset's *alias* is needed, appended to the ID by a colon (`:`)     |
 
 The general syntax is:
 
@@ -174,25 +174,35 @@ assets downloadable via direct links, we add the following shortcode into the
 content of a Grav page:
 
 ```
-[mautic type="asset" id="<ID>" alias="<ALIAS>"]
+[mautic type="asset" id="<ID>:<ALIAS>"]
   Link text
 [/mautic]
 ```
 
-The shortcode to insert asset links expects three parameters: Besides the usual
-`type` and `id` parameter, we also need to provide the *alias* of the asset.
-Both the ID and the alias can be found in the asset's details in Mautic. The
-text between the opening and closing shortcode tags is the text of the link that
-is generated to download the asset.
+The shortcode to insert asset links expects two parameters; Besides the usual
+`type` parameter, for the `id` parameter, we also need to provide the *alias* of
+the asset, joined with the asset's ID by a colon (`:`).  Both the ID and the
+alias can be found in the asset's details in Mautic. The text between the
+opening and closing shortcode tags is the text of the link that is generated to
+download the asset.
 
 The following example shows a shortcode that generates a link for donwloading a
 logo:
 
 ```
-[mautic type="asset" id="1" alias="logopng"]
+[mautic type="asset" id="1:logopdf"]
   Download our logo
 [/mautic]
 ```
+
+> :warning: **WARNING:** A separate `alias` parameter is still supported, but
+> deprecated since 1.6.0
+>
+> ```
+> [mautic type="asset" id="1" alias="logopng"]
+>   Download our logo
+> [/mautic]
+> ```
 
 The above example converts into the following HTML:
 
