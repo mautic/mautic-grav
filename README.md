@@ -195,6 +195,12 @@ logo:
 [/mautic]
 ```
 
+The above example converts into the following HTML:
+
+```
+<a href="https://mautic.loc/asset/1:logopng">Download our logo</a>
+```
+
 > :warning: **WARNING:** A separate `alias` parameter is still supported, but
 > deprecated since 1.6.0
 >
@@ -203,9 +209,3 @@ logo:
 >   Download our logo
 > [/mautic]
 > ```
-
-The above example converts into the following HTML:
-
-```
-<a href="https://mautic.loc/asset/1:logopng">Download our logo</a>
-```
