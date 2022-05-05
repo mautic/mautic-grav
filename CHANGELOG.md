@@ -1,3 +1,9 @@
+# v1.5.1
+## 05/04/2022
+
+1. [](#improved)
+    * Simplifying shortcode interface for assets
+
 # v1.5.0
 ## 04/25/2022
 
