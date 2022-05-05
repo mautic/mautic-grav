@@ -190,7 +190,7 @@ The following example shows a shortcode that generates a link for donwloading a
 logo:
 
 ```
-[mautic type="asset" id="1:logopdf"]
+[mautic type="asset" id="1:logopng"]
   Download our logo
 [/mautic]
 ```
